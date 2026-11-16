@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Github, ChevronLeft, ChevronRight, AlertTriangle, Lightbulb, Trophy, ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 import { Project } from '@/data/portfolioData';
 
 interface ProjectModalProps {
@@ -124,7 +125,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                       : 'border-white/10 opacity-60 hover:opacity-100 hover:border-white/30'
                   }`}
                 >
-                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                  <Image
+                    src={img}
+                    alt="thumbnail"
+                    width={80}
+                    height={56}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>

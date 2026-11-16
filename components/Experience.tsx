@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Users, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
 import { WORK_EXPERIENCE, LEADERSHIP_EXPERIENCE } from '@/data/portfolioData';
 
 export default function Experience() {
@@ -118,9 +119,13 @@ export default function Experience() {
                     {(item.images?.length || item.image) && (
                       <div className="mb-6 rounded-2xl overflow-hidden border border-white/10 bg-slate-950 p-2 space-y-2">
                         <div className="aspect-[16/9] w-full rounded-xl overflow-hidden relative group/img">
-                          <img
-                            src={item.images?.[0] || item.image}
+                          <Image
+                            src={item.images?.[0] || item.image || ''}
                             alt={item.organization}
+                            width={500}
+                            height={280}
+                            loading="lazy"
+                            sizes="(max-width: 768px) 100vw, 450px"
                             className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-500"
                           />
                           <div className="absolute bottom-2 left-2 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 text-[10px] font-mono text-blue-400">
@@ -132,9 +137,16 @@ export default function Experience() {
                             {item.images.map((img, imgIdx) => (
                               <div
                                 key={imgIdx}
-                                className="w-14 h-10 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 hover:border-blue-500 transition-all"
+                                className="w-14 h-10 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 cursor-pointer opacity-80 hover:opacity-100 hover:border-blue-500 transition-all relative"
                               >
-                                <img src={img} alt="training photo" className="w-full h-full object-cover" />
+                                <Image
+                                  src={img}
+                                  alt="training photo"
+                                  width={56}
+                                  height={40}
+                                  loading="lazy"
+                                  className="w-full h-full object-cover"
+                                />
                               </div>
                             ))}
                           </div>

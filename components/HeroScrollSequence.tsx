@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, Cpu, Sparkles, Award, FileText, Mail } from 'lucide-react';
+import Image from 'next/image';
 import { PERSONAL_INFO, ANIMATED_STATS } from '@/data/portfolioData';
 
 export default function HeroScrollSequence() {
@@ -49,8 +50,8 @@ export default function HeroScrollSequence() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Particle nodes definition
-    const particleCount = 70;
+    // Particle nodes definition (optimized count for 60fps)
+    const particleCount = 42;
     const particles: { x: number; y: number; z: number; vx: number; vy: number; radius: number }[] = [];
 
     for (let i = 0; i < particleCount; i++) {
@@ -129,29 +130,30 @@ export default function HeroScrollSequence() {
         ctx.beginPath();
         ctx.arc(px, py, safeRadius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(96, 165, 250, ${opacity * 0.8})`;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = '#2563eb';
         ctx.fill();
       }
 
-      // Draw connecting lines between nearby particles
+      // Draw connecting lines between nearby particles with batched paths
       ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(37, 99, 235, 0.2)';
+      ctx.beginPath();
       for (let i = 0; i < projectedParticles.length; i++) {
         for (let j = i + 1; j < projectedParticles.length; j++) {
           const p1 = projectedParticles[i];
           const p2 = projectedParticles[j];
-          const dist = Math.hypot(p1.px - p2.px, p1.py - p2.py);
+          const dx = p1.px - p2.px;
+          const dy = p1.py - p2.py;
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 140) {
-            const lineOpacity = (1 - dist / 140) * 0.25 * p1.opacity;
-            ctx.beginPath();
+          if (distSq < 19600) { // 140 * 140
             ctx.moveTo(p1.px, p1.py);
             ctx.lineTo(p2.px, p2.py);
-            ctx.strokeStyle = `rgba(37, 99, 235, ${lineOpacity})`;
-            ctx.stroke();
           }
         }
       }
+      ctx.stroke();
 
       ctx.restore();
 
@@ -211,10 +213,13 @@ export default function HeroScrollSequence() {
 
             {/* Profile Avatar Frame */}
             <div className="relative mb-6 group">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-blue-500/50 shadow-[0_0_50px_rgba(37,99,235,0.4)] p-1 bg-gradient-to-tr from-blue-600 to-slate-900 transition-all duration-500 group-hover:scale-105">
-                <img
+              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-blue-500/50 shadow-[0_0_50px_rgba(37,99,235,0.4)] p-1 bg-gradient-to-tr from-blue-600 to-slate-900 transition-all duration-500 group-hover:scale-105 relative">
+                <Image
                   src={PERSONAL_INFO.avatar}
                   alt={PERSONAL_INFO.name}
+                  width={144}
+                  height={144}
+                  priority
                   className="w-full h-full object-cover rounded-full filter brightness-105 contrast-105"
                 />
               </div>

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Lightbulb, Users, BookOpen, Cpu, Handshake, CheckCircle2, GraduationCap } from 'lucide-react';
+import Image from 'next/image';
 import { PERSONAL_INFO, CORE_VALUES, ANIMATED_STATS } from '@/data/portfolioData';
 
 const iconMap: Record<string, any> = {
@@ -53,10 +54,12 @@ export default function About() {
             className="lg:col-span-5 relative"
           >
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 glass-panel shadow-[0_0_50px_rgba(37,99,235,0.2)] p-2">
-                <img
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 glass-panel shadow-[0_0_50px_rgba(37,99,235,0.2)] p-2 relative">
+                <Image
                   src={PERSONAL_INFO.avatar}
                   alt={PERSONAL_INFO.name}
+                  width={400}
+                  height={500}
                   className="w-full h-full object-cover rounded-xl filter brightness-105 contrast-105"
                 />
               </div>

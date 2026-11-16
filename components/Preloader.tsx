@@ -8,8 +8,14 @@ export default function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const duration = 1800; // 1.8s load simulation
-    const intervalTime = 20;
+    // If the user already visited in this session, skip the preloader entirely
+    if (typeof window !== 'undefined' && sessionStorage.getItem('portfolio_visited')) {
+      setIsLoading(false);
+      return;
+    }
+
+    const duration = 350; // Fast and snappy intro (0.35s)
+    const intervalTime = 15;
     const steps = duration / intervalTime;
     const increment = 100 / steps;
 
@@ -17,7 +23,14 @@ export default function Preloader() {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setIsLoading(false), 300);
+          setTimeout(() => {
+            setIsLoading(false);
+            try {
+              sessionStorage.setItem('portfolio_visited', 'true');
+            } catch {
+              // ignore storage errors
+            }
+          }, 100);
           return 100;
         }
         return Math.min(100, Math.floor(prev + increment));
@@ -33,7 +46,7 @@ export default function Preloader() {
         <motion.div
           key="preloader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.8, ease: [0.22, 0.61, 0.36, 1] } }}
+          exit={{ opacity: 0, transition: { duration: 0.4, ease: [0.22, 0.61, 0.36, 1] } }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#05070c] text-white selection:bg-blue-600"
         >
           {/* Subtle radial glow background */}

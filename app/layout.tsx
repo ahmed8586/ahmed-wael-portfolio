@@ -21,6 +21,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ahmed-wael-portfolio-1.vercel.app'),
   title: 'Ahmed Wael Farouk — Mechatronics Engineer & AI Specialist',
   description: 'Personal engineering portfolio of Ahmed Wael Farouk. Mechatronics Engineer, Automation Engineer, Electrical Engineer, and AI & Machine Learning Enthusiast from Badr University in Cairo (BUC).',
   keywords: [

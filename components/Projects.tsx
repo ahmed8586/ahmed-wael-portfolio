@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, Layers, Sparkles, Eye } from 'lucide-react';
+import Image from 'next/image';
 import { FEATURED_PROJECTS, Project } from '@/data/portfolioData';
 import ProjectModal from './ProjectModal';
 
@@ -83,9 +84,13 @@ export default function Projects() {
               >
                 {/* Image Frame */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-950">
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
+                    width={600}
+                    height={375}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0e131f] via-transparent to-transparent opacity-80" />
